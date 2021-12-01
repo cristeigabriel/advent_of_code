@@ -30,8 +30,7 @@ fn part_two(vec: &[i32]) -> Result<usize, Error> {
     Ok(part_one(
         (0..vec.len() - 2)
             .into_iter()
-            .map(|x| [vec[x], vec[x + 1], vec[x + 2]])
-            .map(|x| x.iter().sum::<i32>())
+            .map(|x| vec[x] + vec[x + 1] + vec[x + 2])
             .collect::<Vec<i32>>()
             .as_slice(),
     ))
