@@ -1,9 +1,9 @@
 use std::io::{Error, ErrorKind};
 
-fn part_one(vec: &Vec<i32>) -> usize {
+fn part_one(vec: &[i32]) -> usize {
     let mut previous: Option<i32> = None;
 
-    vec.into_iter()
+    vec.iter()
         .map(|x| {
             let mut state = false;
 
@@ -19,7 +19,7 @@ fn part_one(vec: &Vec<i32>) -> usize {
         .count()
 }
 
-fn part_two(vec: &Vec<i32>) -> Result<usize, Error> {
+fn part_two(vec: &[i32]) -> Result<usize, Error> {
     if vec.len() < 3 {
         return Err(Error::new(
             ErrorKind::InvalidData,
@@ -27,19 +27,19 @@ fn part_two(vec: &Vec<i32>) -> Result<usize, Error> {
         ));
     }
 
-    let result: Vec<[i32; 3]> = (0..vec.len() - 2)
-        .into_iter()
-        .map(|x| [vec[x], vec[x + 1], vec[x + 2]])
-        .collect();
-
     Ok(part_one(
-        &result.into_iter().map(|x| x.iter().sum::<i32>()).collect(),
+        (0..vec.len() - 2)
+            .into_iter()
+            .map(|x| [vec[x], vec[x + 1], vec[x + 2]])
+            .map(|x| x.iter().sum::<i32>())
+            .collect::<Vec<i32>>()
+            .as_slice(),
     ))
 }
 
 fn main() -> Result<(), Error> {
     // https://adventofcode.com/2021/day/1/input serialized
-    let input = vec![
+    let input = &[
         140, 154, 165, 150, 151, 161, 172, 174, 166, 168, 176, 191, 192, 189, 190, 191, 202, 203,
         206, 207, 167, 179, 204, 206, 208, 209, 216, 198, 200, 207, 217, 218, 223, 227, 228, 243,
         241, 246, 278, 255, 256, 273, 295, 291, 288, 290, 303, 325, 301, 292, 291, 309, 313, 315,
@@ -171,8 +171,8 @@ fn main() -> Result<(), Error> {
         3557, 3569, 3571, 3563, 3575, 3587, 3591, 3595, 3596,
     ];
 
-    println!("Part One: {}", part_one(&input));
-    println!("Part Two: {}", part_two(&input)?);
+    println!("Part One: {}", part_one(input));
+    println!("Part Two: {}", part_two(input)?);
 
     Ok(())
 }
